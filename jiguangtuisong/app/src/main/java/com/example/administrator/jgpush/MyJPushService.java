@@ -21,7 +21,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MyJPushService extends Service implements MediaPlayer.OnCompletionListener,MediaPlayer.OnPreparedListener {
     private MediaPlayer mediaPlayer;
-
+    private boolean flag;
     private AssetFileDescriptor ad;
     @Nullable
     @Override
@@ -35,6 +35,7 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
         Log.e("LBH","报警了");
         ad=this.getResources().openRawResourceFd(R.raw.camera_click);
         onPreaere();
+
     }
 
     @Override
@@ -43,8 +44,9 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
         boolean result=intent.getBooleanExtra("result",false);
         if (result)
         {
+
             try {
-                mediaPlayer.setOnPreparedListener(this);
+                this.mediaPlayer.setOnPreparedListener(this);
                 this.mediaPlayer.prepareAsync();
             }catch (Exception e)
             {
@@ -54,7 +56,6 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
             Log.e("LBH","音乐播放了");
         }else
         {
-            Log.e("LBH",mediaPlayer.isPlaying()+"=playing");
             if (mediaPlayer.isPlaying()) {
                 Log.e("LBH","播放中");
                 mediaPlayer.pause();
@@ -66,9 +67,11 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
         return super.onStartCommand(intent, flags, startId);
     }
 
+
     private void onPreaere() {
        // mediaPlayer = MediaPlayer.create(this, R.raw.camera_click);
         mediaPlayer=new MediaPlayer();
+        Log.e("LBH",mediaPlayer.hashCode()+"这里的");
         if (ad==null)
         {
             return;
@@ -101,8 +104,6 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
        this.mediaPlayer.start();
-        Log.e("LBH",this.mediaPlayer.isPlaying()+"=playing");
-        Log.e("LBH",this.mediaPlayer.isLooping()+"=looping");
 
     }
 }
