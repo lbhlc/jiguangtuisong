@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import java.io.IOException;
 
-import cn.jpush.android.api.JPushInterface;
-
 /**
- *   created on 2017/10/24.
+ * created on 2017/10/24.
  * 邮箱:76681287@qq.com
  * @author libohan
  */
 
-public class MyJPushService extends Service implements MediaPlayer.OnCompletionListener,MediaPlayer.OnPreparedListener {
+public class MyJpushService extends Service implements MediaPlayer.OnCompletionListener,MediaPlayer.OnPreparedListener {
     private MediaPlayer mediaPlayer;
-    private boolean flag;
     private AssetFileDescriptor ad;
     @Nullable
     @Override
@@ -32,7 +28,7 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("LBH","报警了");
+
         ad=this.getResources().openRawResourceFd(R.raw.camera_click);
         onPreaere();
 
@@ -40,7 +36,7 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
 
     @Override
     public int onStartCommand(Intent intent,  int flags, int startId) {
-        Log.e("LBH","intent="+intent);
+
         boolean result=intent.getBooleanExtra("result",false);
         if (result)
         {
@@ -53,14 +49,14 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
                 Log.e("LBH","出现异常了");
             }
 
-            Log.e("LBH","音乐播放了");
+
         }else
         {
-            if (mediaPlayer.isPlaying()) {
-                Log.e("LBH","播放中");
+            if (mediaPlayer!=null&&mediaPlayer.isPlaying()) {
+
                 mediaPlayer.pause();
             }
-            Log.e("LBH","stop///////////////////////////////////////////////////////////////////");
+
         }
 
 
@@ -69,7 +65,6 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
 
 
     private void onPreaere() {
-       // mediaPlayer = MediaPlayer.create(this, R.raw.camera_click);
         mediaPlayer=new MediaPlayer();
         Log.e("LBH",mediaPlayer.hashCode()+"这里的");
         if (ad==null)
@@ -90,7 +85,9 @@ public class MyJPushService extends Service implements MediaPlayer.OnCompletionL
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent=new Intent(this,MyJPushService.class);
+        Log.e("LBH","you are can not kill me ");
+        Intent intent=new Intent(this,MyJpushService.class);
+        intent.putExtra("result",false);
         startService(intent);
     }
 

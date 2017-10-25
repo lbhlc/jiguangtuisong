@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import cn.jpush.android.api.JPushInterface;
 
-import static cn.jpush.android.api.JPushInterface.a.v;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Button mInit;
     private Button mSetting;
@@ -205,9 +203,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 warnDialog.setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intentService=new Intent(activity,MyJPushService.class);
+                        Intent intentService=new Intent(activity,MyJpushService.class);
                         intentService.putExtra("result",false);
-                        activity.stopService(intentService);
+                        activity.startService(intentService);
                        dialogInterface.dismiss();
 
                     }

@@ -33,7 +33,7 @@ public class MyReceiver extends BroadcastReceiver {
              if (bundle!=null)
 			 {
 				 Log.e("LBH","进来了");
-				 Intent intentService=new Intent(context,MyJPushService.class);
+				 Intent intentService=new Intent(context,MyJpushService.class);
 				 intentService.putExtra("result",true);
 				 context.startService(intentService);
 				 Intent intentAction=new Intent("warning");
