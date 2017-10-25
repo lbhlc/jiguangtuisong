@@ -40,15 +40,15 @@ public class MyJpushService extends Service implements MediaPlayer.OnCompletionL
         boolean result=intent.getBooleanExtra("result",false);
         if (result)
         {
+            if (mediaPlayer!=null&&!mediaPlayer.isPlaying()) {
 
-            try {
-                this.mediaPlayer.setOnPreparedListener(this);
-                this.mediaPlayer.prepareAsync();
-            }catch (Exception e)
-            {
-                Log.e("LBH","出现异常了");
+                try {
+                    this.mediaPlayer.setOnPreparedListener(this);
+                    this.mediaPlayer.prepareAsync();
+                } catch (Exception e) {
+                    Log.e("LBH", "出现异常了");
+                }
             }
-
 
         }else
         {
