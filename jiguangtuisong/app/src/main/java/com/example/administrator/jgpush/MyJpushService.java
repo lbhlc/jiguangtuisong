@@ -7,59 +7,59 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-
 import java.io.IOException;
-
 /**
  * created on 2017/10/24.
  * 邮箱:76681287@qq.com
  * @author libohan
  */
-
 public class MyJpushService extends Service implements MediaPlayer.OnCompletionListener,MediaPlayer.OnPreparedListener {
     private MediaPlayer mediaPlayer;
     private AssetFileDescriptor ad;
+    private boolean flag;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         ad=this.getResources().openRawResourceFd(R.raw.camera_click);
         onPreaere();
-
     }
-
     @Override
     public int onStartCommand(Intent intent,  int flags, int startId) {
 
         boolean result=intent.getBooleanExtra("result",false);
         if (result)
         {
+            Log.e("LBH","if:mediaplayer="+mediaPlayer+"//"+"if:isplaying="+mediaPlayer.isPlaying());
             if (mediaPlayer!=null&&!mediaPlayer.isPlaying()) {
 
                 try {
-                    this.mediaPlayer.setOnPreparedListener(this);
-                    this.mediaPlayer.prepareAsync();
+                    if (!flag) {
+                        this.mediaPlayer.setOnPreparedListener(this);
+                        this.mediaPlayer.prepareAsync();
+                    }
+                    if (flag) {
+                     mediaPlayer.start();
+                    }
+                    flag=true;
                 } catch (Exception e) {
                     Log.e("LBH", "出现异常了");
+                    Log.e("LBH","e="+e.getMessage());
                 }
             }
-
         }else
         {
+            Log.e("LBH","else:mediaplayer="+mediaPlayer+"//"+"else:isplaying="+mediaPlayer.isPlaying());
             if (mediaPlayer!=null&&mediaPlayer.isPlaying()) {
-
                 mediaPlayer.pause();
             }
 
         }
-
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -97,10 +97,9 @@ public class MyJpushService extends Service implements MediaPlayer.OnCompletionL
         mediaPlayer.seekTo(0);
         mediaPlayer.stop();
     }
-
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
+        Log.e("LBH","开始播放了");
        this.mediaPlayer.start();
-
     }
 }

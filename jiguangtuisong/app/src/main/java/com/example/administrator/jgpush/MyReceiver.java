@@ -36,6 +36,7 @@ public class MyReceiver extends BroadcastReceiver {
 				 Intent intentService=new Intent(context,MyJpushService.class);
 				 intentService.putExtra("result",true);
 				 context.startService(intentService);
+				 Log.e("LBH","发送了");
 				 Intent intentAction=new Intent("warning");
 				 context.sendBroadcast(intentAction);
 			 }
